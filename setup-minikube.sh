@@ -12,6 +12,9 @@ minikube start -p $PROFILE --addons=ingress --driver=podman
 # Ensure kubectl context is set to this cluster
 minikube profile $PROFILE
 
+echo "Waiting for Minikube to be ready..."
+sleep 15
+
 echo "--- Installing Tekton Pipelines & Dashboard ---"
 # Install Pipelines
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
@@ -35,7 +38,9 @@ echo "Waiting for resources to be created..."
 
 sleep 10
 
+bash ./tekton-tasks/apply-syft-taskrun-to-minikube.sh
+
 echo "--- Minikube Setup Done! ---"
 
-echo "Local setup complete and now exposing the Minikube cluster to the host. Please don't close this window and run ./hack/run-compose-with-own-component.sh on another terminal"
+echo "Local setup complete and now exposing the Minikube cluster to the host. Please don't close this window and run ./hack/run-compose-with-local-build.sh on another terminal"
 kubectl proxy --port=8001 --address='0.0.0.0' --accept-hosts='^.*$'
