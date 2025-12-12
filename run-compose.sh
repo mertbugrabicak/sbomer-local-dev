@@ -52,7 +52,6 @@ pushd podman-compose > /dev/null
 
 echo "--- Preparing Data Directories ---"
 rm -rf kafka-data/
-mkdir -p kafka-data
 [ ! -d "./kafka-data" ] && mkdir ./kafka-data && podman unshare chown 1001:0 ./kafka-data
 [ ! -d "./kafka-config" ] && mkdir ./kafka-config && podman unshare chown 1001:0 ./kafka-config
 
